@@ -48,4 +48,22 @@ public class ServiceUser {
 		
 		userRepo.updateUserPass(user.User_Name, oldPass, newPass);
 	}
+	public void RePass(
+			String id,
+			String pass,
+			String repass)
+			 {
+				List<EntityUser> list = userRepo.findByUsernameAndUserpass(id, pass);
+				if(list.size() > 0) {
+					list.get(0).setUser_Pass(repass);
+					userRepo.save(list.get(0));
+				}
+			}
+	public void Delete(String id, String pass) {
+		List<EntityUser> list = userRepo.findByUsernameAndUserpass(id, pass);
+		if(list.size() > 0) {
+			userRepo.delete(list.get(0));
+		}
+	}
+			
 }

@@ -61,28 +61,32 @@ public class MainController {
         _serviceUser.Join(user);
         return "Login";
     }
-	
-	@PostMapping("/login")
-	public String userLogin(DTOUser user, Model m, HttpSession session) {
-		if(session.getAttribute("LoginOK") == "LoginOK")
+	@GetMapping("PassChange/{id}/{pass}/{repass}")
+	public String userPassChange(
+		@PathVariable String id,
+		@PathVariable String pass,
+		@PathVariable String repass)
 		{
-			m.addAttribute("tableList", _serviceUser.getAllUser());
-			return "Mypage";
+			_serviceUser.RePass(id, pass, repass);			
+			return "Login";	
 		}
-		else
-		{
-			boolean b = _serviceUser.login(user);
-			
-			if(b) {
-				session.setAttribute("LoginOK", "LoginOK");
+		@PostMapping("/login")
+		public String userLogin(DTOUser user, Model m, HttpSession session) {
+	
+			if (session.getAttribute("LoginOK") == "LoginOK") {
 				m.addAttribute("tableList", _serviceUser.getAllUser());
 				return "Mypage";
+			}else {
+				boolean b = _serviceUser.login(user);
+			
+				if (b) {
+					session.setAttribute("LoginOK", "LoginOK");
+					m.addAttribute("tableList", _serviceUser.getAllUser());
+					return "Mypage";
+				} else
+					return "Login";
 			}
-			else
-				return "Login";
 		}
-		
-	}
 	@GetMapping("/logout")
 	public String userLogout(HttpSession session) {
 		session.invalidate();
@@ -95,9 +99,15 @@ public class MainController {
 		m.addAttribute("tableList", _serviceUser.getAllUser()); // 업데이트 후에도 tableList 다시 설정
 		return "Mypage";
 	}
-	
-	
-}
+	@GetMapping("/delete")
+	public String delete(HttpSession session, @RequestParam("id") String id, @RequestParam("pass") String pass, Model m) {
+		_serviceUser.Delete(id, pass);
+		m.addAttribute("tableList", _serviceUser.getAllUser()); // 삭제 후에도 tableList 다시 설정
+		return "Mypage";
+	}
+		
+	}
+
 	
 
 	
