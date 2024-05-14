@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <style>
         * {
             margin: 0;
@@ -159,43 +160,81 @@
 </head>
 
 <body>
-	<!DOCTYPE html>
-	<!-- Created By CodingNepal -->
-	<html lang="en" dir="ltr">
-	  <head>
-		<meta charset="utf-8">
-		<!-- <title>Popup Login Form Design | CodingNepal</title> -->
-		<script src="https://kit.fontawesome.com/a076d05399.js"></script>
-	  </head>
-	  <body>
-		<div class="center">
-		  <div class="container">
-			<label for="show" class="close-btn fas fa-times" title="close"></label>
-			<div class="text">
-	Login Form</div>
-    <form action="/login" method="post">
-			  <div class="data">
-				<label>Email or Phone</label>
-				<input type="text" placeholder="Enter Username" name="User_Name" required>
-			</div>
-	<div class="data">
-				<label>Password</label>
-				<input type="text" placeholder="Enter UserPass" name="User_Pass" required>
-			</div>
-			<br>
-	<div class="btn">
-				<div class="inner">
-	</div>
-	<button type="submit">login</button>
-			  </div>
-	<div class="signup-link">
-	Not a member? <a href="/register.html">SignUp now</a></div>
-	</form>
-	</div>
-	</div>
-	</body>
-	</html>
+    <!DOCTYPE html>
+    <!-- Created By CodingNepal -->
+    <html lang="en" dir="ltr">
+
+    <head>
+        <meta charset="utf-8">
+        <!-- <title>Popup Login Form Design | CodingNepal</title> -->
+    </head>
+
+    <body>
+        <div class="center">
+            <div class="container">
+                <label for="show" class="close-btn fas fa-times" title="close"></label>
+                <div class="text">
+                    글쓰기</div>
+                <form action="/write" method="post">
+                    <div class="data">
+                        <label>Board_Title</label>
+                        <input type="text" placeholder="Enter Board_Title" name="Board_Title" required>
+                    </div>
+                    <div class="data">
+                        <label>Board_Content</label>
+                        <input type="text" placeholder="Enter Board_Content" name="Board_Content" required>
+                    </div>
+                    <br>
+                    <div class="btn">
+                        <div class="inner">
+                        </div>
+                        <button type="submit">write</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </body>
+
+    </html>
 
 </body>
 
 </html>
+<!-- <script>
+	var currentTime = new Date();
+	
+	var year = currentTime.getFullYear();
+	var month = ('0' + (currentTime.getMonth() + 1)).slice(-2);
+	var day = ('0' + currentTime.getDate()).slice(-2);
+
+	var dateString = year + '-' + month + '-' + day;
+
+	var hours = ('0' + currentTime.getHours()).slice(-2);
+	var minutes = ('0' + currentTime.getMinutes()).slice(-2);
+	var seconds = ('0' + currentTime.getSeconds()).slice(-2);
+
+	var timeString = hours + ':' + minutes + ':' + seconds;
+
+	document.getElementById("date").value = dateString + " " + timeString;
+</script> -->
+<!-- 
+<body>
+    <form action="/register" method="post">
+        <div class="container">
+            <label for="uname"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="User_Name" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="text" placeholder="Enter Userpass" name="User_Pass" required>
+
+			<div class="btn">
+				<div class="inner">
+	</div>
+	<button type="submit">SignUp</button>
+			  </div>
+        </div>
+    </form>
+</body>
+
+</html> -->
