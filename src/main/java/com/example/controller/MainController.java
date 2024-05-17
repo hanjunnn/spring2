@@ -79,29 +79,33 @@ public class MainController {
 	}
 
 	@PostMapping("/login")
-	public String userLogin(DTOUser user, Model m, HttpSession session) {
-		EntityUser eu = (EntityUser) session.getAttribute("LoginOK");
-		if (session.getAttribute("LoginOK") == "LoginOK") {
-			// 이미 로그인되어 있는 경우
-			m.addAttribute("tableList", _serviceBoard.getAllBoard());
-			return "Board";
-		} else {
-			boolean b = _serviceUser.login(user, session);
-	
-			if (b) {
-				// 로그인 성공 시
-				session.setAttribute("LoginOK", "LoginOK");
-				session.setAttribute("currentUserName", user.User_Name);
-				session.setAttribute("currentUserID", eu.id);
-				m.addAttribute("tableList", _serviceBoard.getAllBoard());
-				
-				return "Board";
-			} else {
-				// 로그인 실패 시
-				return "Login";
-			}
-		}
-	}
+    public String userLogin(DTOUser user, Model m, HttpSession session) {
+        if ("LoginOK".equals(session.getAttribute("LoginOK"))) {
+            // 이미 로그인되어 있는 경우
+            m.addAttribute("tableList", _serviceBoard.getAllBoard());
+            return "Board";
+        } else {
+            boolean b = _serviceUser.login(user, session);
+            if (b) {
+                // 로그인 성공 시
+                session.setAttribute("LoginOK", "LoginOK");
+                session.setAttribute("currentUserName", user.User_Name);
+
+                // 사용자 이름을 기반으로 ID를 가져와 세션에 저장
+                EntityUser currentUser = _serviceUser.getUserByUsername(user.User_Name);
+                if (currentUser != null) {
+                    session.setAttribute("currentUserID", currentUser.getId());
+					System.out.println("currentUserID: " + currentUser.getId());
+                }
+
+                m.addAttribute("tableList", _serviceBoard.getAllBoard());
+                return "Board";
+            } else {
+                // 로그인 실패 시
+                return "Login";
+            }
+        }
+    }
 	
 
 	@GetMapping("/logout")
@@ -138,9 +142,10 @@ public class MainController {
 	@PostMapping("/write")
 	public String write(DTOBoard board, Model m, HttpSession session) {
 		String currentUserName = (String) session.getAttribute("currentUserName");
-		int currentUserID = (int) session.getAttribute("currentUserID"); // 세션에서 UserID 가져오기
+		Integer currentUserID = (Integer) session.getAttribute("currentUserID"); // 세션에서 UserID 가져오기
+		System.out.println("currentUserID retrieved: " + currentUserID); // 디버깅 메시지
 	
-		if (currentUserName != null) {
+		if (currentUserName != null && currentUserID != null) {
 			board.setBoard_Author(currentUserName);
 			board.setBoard_Userid(currentUserID); // 현재 사용자의 ID를 게시물에 설정
 			LocalDateTime now = LocalDateTime.now();

@@ -3,6 +3,7 @@ package com.example.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "board_table") // 데이터베이스 테이블 이름을 명시적으로 지정
 public class EntityBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,7 +30,7 @@ public class EntityBoard {
         this.content = "";
         this.author = "";
         this.date = "";
-        this.userid = 1;
+        this.userid = -1;
     }
 
     public EntityBoard(int id, String Title, String Content, String Author, String Date, int Userid){

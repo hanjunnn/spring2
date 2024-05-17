@@ -3,6 +3,7 @@ package com.example.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "user_table") // 데이터베이스 테이블 이름을 명시적으로 지정
 public class EntityUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

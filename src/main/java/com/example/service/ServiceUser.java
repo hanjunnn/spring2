@@ -70,6 +70,13 @@ public class ServiceUser {
 					userRepo.save(list.get(0));
 				}
 			}
+			public EntityUser getUserByUsername(String userName) {
+				List<EntityUser> list = userRepo.findUserData(userName);
+				if (!list.isEmpty()) {
+					return list.get(0);
+				}
+				return null;
+			}
 	public void Delete(String id, String pass) {
 		List<EntityUser> list = userRepo.findByUsernameAndUserpass(id, pass);
 		if(list.size() > 0) {

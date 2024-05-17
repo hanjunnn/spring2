@@ -25,6 +25,10 @@ public interface UserRepository extends CrudRepository<EntityUser, Integer> {
 	
     EntityUser findById(int id);
 
+	@Query(value = "select id from EntityUser where username = :userName",
+            nativeQuery = true)
+    List<Integer> findIdByUsername(String userName);
+
 	@Modifying
 	@Transactional
 	@Query(value = "UPDATE EntityUser SET userpass = :newPass WHERE username = :userName AND userpass = :userPass")
