@@ -23,6 +23,7 @@ public class ServiceBoard {
         System.out.println(board.Board_Content);
         System.out.println(board.Board_Author);
         System.out.println(board.Board_Date);
+        System.out.println(board.Board_Userid);
         boardRepo.save(board.ToEntity());
     }
 

@@ -3,13 +3,15 @@ package com.example.dto;
 import com.example.entity.EntityUser;
 
 public class DTOUser {
+	public int Id;
 	public String User_Name;
 	public String User_Pass;
 	
-	public DTOUser(String user_Name, String user_Pass) {
+	public DTOUser(String user_Name, String user_Pass, int id) {
 		super();
 		User_Name = user_Name;
 		User_Pass = user_Pass;
+		Id = id;
 	}
 	
 	public DTOUser() {
@@ -17,7 +19,13 @@ public class DTOUser {
 	}
 	
 	
-	
+	public int getId() {
+        return Id;
+    }
+    
+    public void setId(int id) {
+        this.Id = id;
+    }
 	public String getUser_Name() {
 		return User_Name;
 	}

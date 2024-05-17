@@ -56,6 +56,7 @@ public class MainController {
 			DTOUser user = new DTOUser();
 			user.User_Name = String.valueOf(i);
 			user.User_Pass = String.valueOf(i);
+			user.Id = i;
 			_serviceUser.Join(user);
 		}
 		return "Login";
@@ -79,26 +80,29 @@ public class MainController {
 
 	@PostMapping("/login")
 	public String userLogin(DTOUser user, Model m, HttpSession session) {
-
+		EntityUser eu = (EntityUser) session.getAttribute("LoginOK");
 		if (session.getAttribute("LoginOK") == "LoginOK") {
-			//m.addAttribute("tableList", _serviceUser.getAllUser());
+			// 이미 로그인되어 있는 경우
 			m.addAttribute("tableList", _serviceBoard.getAllBoard());
-
-
 			return "Board";
 		} else {
-			boolean b = _serviceUser.login(user);
-
+			boolean b = _serviceUser.login(user, session);
+	
 			if (b) {
+				// 로그인 성공 시
 				session.setAttribute("LoginOK", "LoginOK");
 				session.setAttribute("currentUserName", user.User_Name);
-				//m.addAttribute("tableList", _serviceUser.getAllUser());
+				session.setAttribute("currentUserID", eu.id);
 				m.addAttribute("tableList", _serviceBoard.getAllBoard());
+				
 				return "Board";
-			} else
+			} else {
+				// 로그인 실패 시
 				return "Login";
+			}
 		}
 	}
+	
 
 	@GetMapping("/logout")
 	public String userLogout(HttpSession session) {
@@ -131,22 +135,26 @@ public class MainController {
 
 
 
-@PostMapping ("/write")
-public String write(DTOBoard board, Model m, HttpSession session) {
-    String currentUserName = (String) session.getAttribute("currentUserName");
-    if (currentUserName != null) {
-        board.setBoard_Author(currentUserName);
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formatDateTime = now.format(formatter);
-        board.setBoard_Date(formatDateTime); // 현재 날짜와 시간 설정
-        _serviceBoard.Write(board);
-        m.addAttribute("tableList",_serviceBoard.getAllBoard());
-        return "Board";
-    } else {
-        return "Login";
-    }
-}
+	@PostMapping("/write")
+	public String write(DTOBoard board, Model m, HttpSession session) {
+		String currentUserName = (String) session.getAttribute("currentUserName");
+		int currentUserID = (int) session.getAttribute("currentUserID"); // 세션에서 UserID 가져오기
+	
+		if (currentUserName != null) {
+			board.setBoard_Author(currentUserName);
+			board.setBoard_Userid(currentUserID); // 현재 사용자의 ID를 게시물에 설정
+			LocalDateTime now = LocalDateTime.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			String formatDateTime = now.format(formatter);
+			board.setBoard_Date(formatDateTime); // 현재 날짜와 시간 설정
+			_serviceBoard.Write(board);
+			m.addAttribute("tableList", _serviceBoard.getAllBoard());
+			return "Board";
+		} else {
+			return "Login";
+		}
+	}
+	
 }
 // @PostMapping("/dtoTest")
 // @ResponseBody

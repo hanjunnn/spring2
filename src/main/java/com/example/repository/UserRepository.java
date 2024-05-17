@@ -23,6 +23,7 @@ public interface UserRepository extends CrudRepository<EntityUser, Integer> {
 	
 	List<EntityUser> findByUsernameAndUserpass(String userName, String userPass);
 	
+    EntityUser findById(int id);
 
 	@Modifying
 	@Transactional

@@ -19,21 +19,27 @@ public class EntityBoard {
 
     @Column
     String date;
+
+    @Column
+    int userid;
+    
     public EntityBoard(){
         this.id = -1;
         this.title = "";
         this.content = "";
         this.author = "";
         this.date = "";
+        this.userid = 1;
     }
 
-    public EntityBoard(int id, String Title, String Content, String Author, String Date){
+    public EntityBoard(int id, String Title, String Content, String Author, String Date, int Userid){
         super();
         this.id = id;
         this.title = Title;
         this.content = Content;
         this.author = Author;
         this.date = Date;
+        this.userid = Userid;
     }
     @Override
     public String toString() {
@@ -43,6 +49,7 @@ public class EntityBoard {
                 ", Content='" + content + '\'' +
                 ", Author='" + author + '\'' +
                 ", Date='" + date + '\'' +
+                ", Userid='" + userid + '\'' +
                 '}';
     }
     public int getId() {
@@ -74,5 +81,11 @@ public class EntityBoard {
     }
     public void setDate(String Date) {
         date = Date;
+    }
+    public int getUserid() {
+        return userid;
+    }
+    public void setUserid(int Userid) {
+        userid = Userid;
     }
 }
